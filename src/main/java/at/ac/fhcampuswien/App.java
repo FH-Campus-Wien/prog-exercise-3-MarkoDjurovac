@@ -48,7 +48,7 @@ public class App {
             }
             else
             {
-                X_i = arrGeneratedNumbers[ i - 1];
+                X_i = arrGeneratedNumbers[ i - 1 ];
             }
 
             arrGeneratedNumbers[i] = ( ( A * X_i ) + C ) % M;
@@ -98,7 +98,7 @@ public class App {
         }
     }
 
-    public static boolean swapArrays( int[] arr1, int[] arr2)
+    public static boolean swapArrays( int[] arr1, int[] arr2 )
     {
         int swapHelper;
 
@@ -119,45 +119,50 @@ public class App {
 
     public static String camelCase( String input )
     {
+        // Difference between upper and lowercase letters in ASCII table is always 32
         final int ASCII_DIFFERENCE = 32;
+        // Control variable to set capital letter
+        boolean isCapital = true;
+        char[] inputAsChars = input.toCharArray();
 
         StringBuilder output = new StringBuilder();
-        String[] arrWords = input.split( " " );
-        char[] arrStringToChars;
 
-        // Loop through every word
-        for( String word : arrWords )
+        // Loop through every character in array
+        for( char letter : inputAsChars )
         {
-            boolean isNotFirstCharOfWord = false;
-
-            // Lowercase the word and assign to char array
-            arrStringToChars = word.toLowerCase().toCharArray();
-
-            // Loop through every letter of word
-            for( char letter : arrStringToChars )
+            // If it's a lowercase letter and the control variable is true,
+            // get the capital letter, append it to output and set control variable to false
+            if( letter >= 'a' && letter <= 'z' )
             {
-                // Only accept letters 'a' - 'z'
-                if( letter >= 'a' && letter <= 'z' )
+                if( isCapital )
                 {
-                    // If it's not the first letter just add it to output string
-                    if( isNotFirstCharOfWord )
-                    {
-                        output.append(letter);
-                    }
-                    else
-                    {
-                        // Else get uppercase letter before adding to output string
-                        // Difference in ASCII table between lowercase and uppercase is 32
-                        // e.g. 'a' - 32 = 'A'
-                        output.append((char) (letter - ASCII_DIFFERENCE));
-                        isNotFirstCharOfWord = true;
-                    }
+                    letter -= ASCII_DIFFERENCE;
                 }
+                output.append( letter );
+                isCapital = false;
+            }
+            // If it's a capital letter and the control variable is false,
+            // get the lowercase letter, append it to output and set control variable to false
+            else if( letter >= 'A' && letter <= 'Z' )
+            {
+                if( !isCapital )
+                {
+                    letter += ASCII_DIFFERENCE;
+                }
+                output.append( letter );
+                isCapital = false;
+            }
+            // If the current 'letter' is a space character, next letter has to be capital
+            // -> set control variable to true
+            else if( letter == ' ' )
+            {
+                isCapital = true;
             }
         }
 
         return output.toString();
     }
+
 
     public static int checkDigit( int[] arr )
     {
@@ -191,8 +196,8 @@ public class App {
 
         System.out.println();
         long[] arrGeneratedNumbers = lcg( 0 );
-        for (long arrGeneratedNumber : arrGeneratedNumbers) {
-            System.out.print(arrGeneratedNumber + "\t");
+        for( long arrGeneratedNumber : arrGeneratedNumbers ) {
+            System.out.print( arrGeneratedNumber + "\t" );
         }
         System.out.println();
 
@@ -203,7 +208,8 @@ public class App {
         System.out.println();
         int[] arr1 = new int[]{ 1, 2, 3, 4, 5, 6 };
         int[] arr2 = new int[]{ 100, 202, 30, 14, 15, 16 };
-        swapArrays( arr1, arr2 );
+        boolean isSwapped = swapArrays( arr1, arr2 );
+        System.out.println( "Method swapArrays returned " + isSwapped );
 
         System.out.println();
         String input = "my name isn't Alice";
